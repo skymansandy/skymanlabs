@@ -18,11 +18,16 @@ export interface AppLink {
   external?: boolean;
 }
 
+/** Grouping bucket on the home page. */
+export type AppCategory = "app" | "game";
+
 /** A single app. One self-contained module per app under src/apps/. */
 export interface AppEntry {
   /** Stable id / slug — also the detail-page route (/[id]). */
   id: string;
   name: string;
+  /** Which home-page group this belongs to. */
+  category: AppCategory;
   /** Short one-liner shown under the name. */
   tagline?: string;
   icon: AppIconSource;

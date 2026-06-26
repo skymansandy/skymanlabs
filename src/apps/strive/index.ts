@@ -4,6 +4,7 @@ import type { AppEntry } from "../types";
 export const strive: AppEntry = {
   id: "strive",
   name: "Strive",
+  category: "app",
   tagline: "Most apps fight for your attention. This one gives it back.",
   icon: { monogram: "S" }, // placeholder — no asset yet
   play: "#", // TODO: real Play Store URL once published

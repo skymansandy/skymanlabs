@@ -7,6 +7,7 @@
   --card: #ffffff;
   --hover: #f6f7f8;
   --accent: #14151a;
+  --particle-rgb: 100, 116, 139; /* slate */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,7 +19,19 @@
     --card: #121316;
     --hover: #16181c;
     --accent: #ededf0;
+    --particle-rgb: 56, 189, 248; /* cyan */
   }
+}
+
+/* Live background ----------------------------------------------------- */
+
+.bg-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 * {
@@ -91,6 +104,8 @@ a {
 /* Home page ----------------------------------------------------------- */
 
 .page {
+  position: relative;
+  z-index: 1;
   min-height: 100dvh;
   max-width: 640px;
   margin: 0 auto;
@@ -116,32 +131,47 @@ a {
   max-width: 32ch;
 }
 
+.groups {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.group-title {
+  margin: 0 0 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
 .apps {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  flex: 1;
 }
 
 .card {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  background: var(--card);
-}
-
-.card-link {
   display: flex;
   align-items: center;
   gap: 0.9rem;
   padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--card);
   text-decoration: none;
   color: inherit;
-  border-radius: 14px;
-  transition: background 0.15s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
-.card-link:hover {
+.card:hover {
   background: var(--hover);
+  border-color: var(--muted);
 }
 
 .card-text {
@@ -168,10 +198,6 @@ a {
   font-size: 0.88rem;
 }
 
-.card .badges {
-  padding: 0 1.1rem 1rem;
-}
-
 /* Footer -------------------------------------------------------------- */
 
 .footer {
@@ -183,6 +209,8 @@ a {
 /* App detail page ----------------------------------------------------- */
 
 .detail {
+  position: relative;
+  z-index: 1;
   max-width: 860px;
   margin: 0 auto;
   padding: clamp(2.5rem, 8vh, 5rem) 1.25rem 3rem;
@@ -240,6 +268,7 @@ a {
   border: 1px solid var(--border);
   border-radius: 16px;
   background: var(--card);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
 .hero-body {

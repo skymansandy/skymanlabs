@@ -5,6 +5,7 @@ import icon from "./icon.png";
 export const gamenight: AppEntry = {
   id: "gamenight",
   name: "GameNight",
+  category: "app",
   tagline: "All your games, in one place.",
   icon,
   play: "#", // TODO: real Play Store URL once published
