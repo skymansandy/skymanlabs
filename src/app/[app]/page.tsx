@@ -55,18 +55,24 @@ export default async function AppPage({
           ← skymanlabs
         </Link>
         <nav className="rail-nav" aria-label="Useful links">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="rail-link"
-              {...(link.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            // Protocol-handler links (mailto:/tel:) hand off to the OS and must
+            // not open a new tab — target="_blank" leaves a stranded blank tab.
+            const isProtocol = /^(mailto:|tel:)/.test(link.href);
+            const newTab = link.external && !isProtocol;
+            return (
+              <a
+                key={link.label}
+                href={link.href}
+                className="rail-link"
+                {...(newTab
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
       </aside>
 

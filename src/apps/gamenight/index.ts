@@ -13,7 +13,7 @@ import shot8 from "./screenshots/shot-8.webp";
 export const gamenight: AppEntry = {
   id: "gamenight",
   name: "GameNight",
-  category: "app",
+  category: "game",
   tagline: "All your games, in one place.",
   icon,
   screenshots: [shot1, shot2, shot3, shot4, shot5, shot6, shot7, shot8],
