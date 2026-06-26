@@ -29,11 +29,23 @@ function Glyph({ store }: { store: Store }) {
 }
 
 export function StoreBadge({ store, href }: { store: Store; href?: string }) {
-  if (!href) return null;
+  const live = !!href && /^https?:\/\//.test(href);
+
+  if (live) {
+    return (
+      <a className="badge" href={href} target="_blank" rel="noopener noreferrer">
+        <Glyph store={store} />
+        <span>{LABELS[store]}</span>
+      </a>
+    );
+  }
+
+  // Not published yet: a non-clickable "Coming soon" pill.
   return (
-    <a className="badge" href={href} target="_blank" rel="noopener noreferrer">
+    <span className="badge badge-soon" aria-disabled="true">
       <Glyph store={store} />
       <span>{LABELS[store]}</span>
-    </a>
+      <span className="badge-soon-tag">Soon</span>
+    </span>
   );
 }

@@ -1,11 +1,33 @@
 import type { Metadata } from "next";
 import { Background } from "@/components/Background";
+import { SITE } from "@/site";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "skymanlabs",
-  description: "Apps and games by skymanlabs.",
-  metadataBase: new URL("https://skymanlabs.com"),
+  metadataBase: new URL(SITE.url),
+  title: {
+    default: SITE.name,
+    template: `%s — ${SITE.name}`,
+  },
+  description: SITE.description,
+  applicationName: SITE.name,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: SITE.name,
+    url: SITE.url,
+    title: SITE.name,
+    description: SITE.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE.name,
+    description: SITE.description,
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

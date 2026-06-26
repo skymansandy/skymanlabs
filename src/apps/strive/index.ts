@@ -7,8 +7,8 @@ export const strive: AppEntry = {
   category: "app",
   tagline: "Most apps fight for your attention. This one gives it back.",
   icon: { monogram: "S" }, // placeholder — no asset yet
-  play: "#", // TODO: real Play Store URL once published
-  appStore: "#", // TODO: real App Store URL once published
+  play: "", // TODO: real Play Store URL once published (shows "Coming soon" until set)
+  appStore: "", // TODO: real App Store URL once published (shows "Coming soon" until set)
   description:
     "Strive is an aspirational, redirect-style app blocker. The moment you open a distracting app, Strive steps in and surfaces your active goals — with direct shortcuts to the apps that actually move you forward.",
   features: [
@@ -29,8 +29,16 @@ export const strive: AppEntry = {
       detail: "Built with Kotlin Multiplatform; iOS on the way.",
     },
   ],
-  links: [
-    { label: "Privacy Policy", href: "#" }, // TODO: real privacy policy URL
-    { label: "Support", href: "#" }, // TODO: support/contact URL or mailto:
-  ],
+  privacy: {
+    effectiveDate: "26 June 2026",
+    posture:
+      "Strive runs entirely on your device. It has no account and does not send your personal data to us or anyone else.",
+    permissions: [
+      {
+        name: "Usage access / Accessibility",
+        reason:
+          "To detect when you open an app you've chosen to block, so Strive can step in and surface your goals. This detection happens on your device and is never transmitted.",
+      },
+    ],
+  },
 };

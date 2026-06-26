@@ -22,4 +22,5 @@ export type {
   AppLink,
   AppIconSource,
   AppCategory,
+  AppPrivacy,
 } from "./types";

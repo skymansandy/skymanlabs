@@ -18,6 +18,18 @@ export interface AppLink {
   external?: boolean;
 }
 
+/** Privacy-policy content for an app's /privacy page. */
+export interface AppPrivacy {
+  /** Human-readable effective date, e.g. "26 June 2026". */
+  effectiveDate: string;
+  /** One- or two-sentence privacy posture / overview. */
+  posture: string;
+  /** Device permissions the app requests, and why. Omit if none. */
+  permissions?: { name: string; reason: string }[];
+  /** Third-party services that receive data. Empty/omitted = none. */
+  thirdParties?: string[];
+}
+
 /** Grouping bucket on the home page. */
 export type AppCategory = "app" | "game";
 
@@ -31,6 +43,8 @@ export interface AppEntry {
   /** Short one-liner shown under the name. */
   tagline?: string;
   icon: AppIconSource;
+  /** Screenshots shown in the detail-page carousel. Co-located in the app module. */
+  screenshots?: StaticImageData[];
   /** Google Play listing URL. Empty until published. */
   play?: string;
   /** Apple App Store listing URL. Empty until published. */
@@ -39,6 +53,8 @@ export interface AppEntry {
   description?: string;
   /** Highlighted features for the detail page. */
   features?: AppFeature[];
-  /** Useful links shown in the detail-page nav rail. */
+  /** Extra custom links for the detail-page nav rail (beyond the standard ones). */
   links?: AppLink[];
+  /** Privacy-policy content. Required for published apps. */
+  privacy?: AppPrivacy;
 }

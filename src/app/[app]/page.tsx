@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { apps, getApp } from "@/apps";
+import { apps, getApp, type AppLink } from "@/apps";
+import { SITE } from "@/site";
 import { AppIcon } from "@/components/AppIcon";
 import { StoreBadge } from "@/components/StoreBadge";
+import { Carousel } from "@/components/Carousel";
 
 type Params = { app: string };
 
@@ -17,10 +19,17 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const app = getApp((await params).app);
-  if (!app) return { title: "Not found — skymanlabs" };
+  if (!app) return {};
+  const path = `/${app.id}`;
   return {
-    title: `${app.name} — skymanlabs`,
+    title: app.name,
     description: app.tagline ?? app.description,
+    alternates: { canonical: path },
+    openGraph: {
+      title: `${app.name} — ${SITE.name}`,
+      description: app.tagline ?? app.description,
+      url: path,
+    },
   };
 }
 
@@ -32,7 +41,12 @@ export default async function AppPage({
   const app = getApp((await params).app);
   if (!app) notFound();
 
-  const hasStore = app.play || app.appStore;
+  // Standard nav links every app gets, plus any custom ones from its module.
+  const navLinks: AppLink[] = [
+    ...(app.privacy ? [{ label: "Privacy Policy", href: `/${app.id}/privacy` }] : []),
+    { label: "Contact", href: `mailto:${SITE.email}`, external: true },
+    ...(app.links ?? []),
+  ];
 
   return (
     <div className="detail">
@@ -40,22 +54,20 @@ export default async function AppPage({
         <Link href="/" className="rail-home">
           ← skymanlabs
         </Link>
-        {app.links?.length ? (
-          <nav className="rail-nav" aria-label="Useful links">
-            {app.links.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="rail-link"
-                {...(link.external
-                  ? { target: "_blank", rel: "noopener noreferrer" }
-                  : {})}
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-        ) : null}
+        <nav className="rail-nav" aria-label="Useful links">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              className="rail-link"
+              {...(link.external
+                ? { target: "_blank", rel: "noopener noreferrer" }
+                : {})}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
       </aside>
 
       <main className="detail-main">
@@ -64,14 +76,23 @@ export default async function AppPage({
           <div className="hero-body">
             <h1 className="hero-name">{app.name}</h1>
             {app.tagline ? <p className="hero-tagline">{app.tagline}</p> : null}
-            {hasStore ? (
-              <div className="badges">
-                <StoreBadge store="play" href={app.play} />
-                <StoreBadge store="appStore" href={app.appStore} />
-              </div>
-            ) : null}
+            <div className="badges">
+              <StoreBadge store="play" href={app.play} />
+              <StoreBadge store="appStore" href={app.appStore} />
+            </div>
           </div>
         </article>
+
+        {app.screenshots?.length ? (
+          <section className="section">
+            <Carousel
+              images={app.screenshots.map((src, i) => ({
+                src,
+                alt: `${app.name} screenshot ${i + 1}`,
+              }))}
+            />
+          </section>
+        ) : null}
 
         {app.description ? (
           <section className="section">
