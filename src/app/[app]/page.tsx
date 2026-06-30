@@ -41,8 +41,16 @@ export default async function AppPage({
   const app = getApp((await params).app);
   if (!app) notFound();
 
+  // In-page section anchors — only the sections this app actually renders.
+  // Drives the "On this page" quick-nav in the rail and the section ids below.
+  const sections = [
+    app.description ? { id: "about", label: "About" } : null,
+    app.features?.length ? { id: "features", label: "Features" } : null,
+  ].filter((s): s is { id: string; label: string } => s !== null);
+
   // Standard nav links every app gets, plus any custom ones from its module.
   const navLinks: AppLink[] = [
+    ...(app.guide ? [{ label: "How to play", href: `/${app.id}/howtoplay` }] : []),
     ...(app.privacy ? [{ label: "Privacy Policy", href: `/${app.id}/privacy` }] : []),
     { label: "Contact", href: `mailto:${SITE.email}`, external: true },
     ...(app.links ?? []),
@@ -54,6 +62,19 @@ export default async function AppPage({
         <Link href="/" className="rail-home">
           ← skymanlabs
         </Link>
+        {sections.length ? (
+          <nav className="rail-nav rail-sections" aria-label="On this page">
+            {sections.map((section) => (
+              <a
+                key={section.id}
+                href={`#${section.id}`}
+                className="rail-link"
+              >
+                {section.label}
+              </a>
+            ))}
+          </nav>
+        ) : null}
         <nav className="rail-nav" aria-label="Useful links">
           {navLinks.map((link) => {
             // Protocol-handler links (mailto:/tel:) hand off to the OS and must
@@ -101,14 +122,14 @@ export default async function AppPage({
         ) : null}
 
         {app.description ? (
-          <section className="section">
+          <section className="section" id="about">
             <h2 className="section-title">About</h2>
             <p className="section-text">{app.description}</p>
           </section>
         ) : null}
 
         {app.features?.length ? (
-          <section className="section">
+          <section className="section" id="features">
             <h2 className="section-title">Features</h2>
             <ul className="features">
               {app.features.map((feature) => (

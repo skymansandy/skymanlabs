@@ -43,7 +43,9 @@ body {
   margin: 0;
   padding: 0;
   max-width: 100vw;
-  overflow-x: hidden;
+  /* `clip` (not `hidden`) prevents horizontal scroll WITHOUT creating a scroll
+     container — keeping `position: sticky` on the detail-page rail working. */
+  overflow-x: clip;
 }
 
 body {
@@ -81,44 +83,63 @@ a {
 .badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.6rem;
 }
 
-.badge {
+/* Official-style black pill badge (Apple / Google Play). Always dark with a
+   hairline border so it stays legible on both light and dark backgrounds. */
+.store-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.7rem;
-  border: 1px solid var(--border);
+  gap: 0.55rem;
+  height: 44px;
+  padding: 0 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 9px;
-  font-size: 0.82rem;
-  color: var(--fg);
+  background: #000;
+  color: #fff;
   text-decoration: none;
-  transition: border-color 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-.badge:hover {
-  border-color: var(--muted);
+.store-badge:hover {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  transform: translateY(-1px);
 }
 
-.badge-soon {
-  color: var(--muted);
+.store-badge-glyph {
+  flex: none;
+}
+
+.store-badge-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.05;
+}
+
+.store-badge-top {
+  font-size: 0.6rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.store-badge-bottom {
+  font-size: 1.12rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.store-badge-soon {
   cursor: default;
+  opacity: 0.55;
 }
 
-.badge-soon:hover {
-  border-color: var(--border);
-}
-
-.badge-soon-tag {
-  font-size: 0.62rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 0.05rem 0.3rem;
-  border-radius: 5px;
-  background: var(--hover);
-  color: var(--muted);
+.store-badge-soon:hover {
+  transform: none;
+  box-shadow: none;
 }
 
 /* Home page ----------------------------------------------------------- */
@@ -314,6 +335,8 @@ a {
 
 .section {
   margin-top: 2.25rem;
+  /* Keep the heading clear of the viewport top when reached via an anchor jump. */
+  scroll-margin-top: 1.5rem;
 }
 
 .section-title {
@@ -350,6 +373,67 @@ a {
 }
 
 .feature-detail {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* How to play --------------------------------------------------------- */
+
+.howto {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.howto-step {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+}
+
+.howto-num {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 0.05rem;
+}
+
+.howto-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.howto-screen {
+  align-self: flex-start;
+  margin-bottom: 0.3rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  background: var(--hover);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 0.1rem 0.4rem;
+}
+
+.howto-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.howto-detail {
   color: var(--muted);
   font-size: 0.9rem;
 }
@@ -520,6 +604,98 @@ a {
   text-underline-offset: 2px;
 }
 
+/* How-to-play guide page ---------------------------------------------- */
+
+.guide-intro {
+  margin: 0.75rem 0 0.5rem;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.guide-path {
+  margin-top: 2.5rem;
+}
+
+.guide-path h2,
+.guide-tabpanel h2 {
+  margin: 0 0 0.4rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Tabbed how-to-play (Caller mode / Ticket mode) ---------------------- */
+
+.guide-tabs {
+  margin-top: 1.75rem;
+}
+
+.guide-tablist {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  margin-bottom: 1.6rem;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+  background: var(--card);
+}
+
+.guide-tab {
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.45rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.guide-tab:hover {
+  color: var(--fg);
+}
+
+.guide-tab.is-active {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.guide-tab:focus-visible {
+  outline: 2px solid var(--muted);
+  outline-offset: 2px;
+}
+
+.guide-tabpanel {
+  outline: none;
+}
+
+.guide-path-intro {
+  margin: 0 0 1.25rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.guide-tips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.guide-tips li {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.guide-tips strong {
+  color: var(--fg);
+}
+
 /* 404 ----------------------------------------------------------------- */
 
 .notfound {
@@ -578,6 +754,15 @@ a {
     padding-top: 0;
     border-top: none;
     margin-left: auto;
+  }
+
+  /* Section jump-links sit on their own full-width row above the home/links bar. */
+  .rail-sections {
+    order: -1;
+    width: 100%;
+    margin-left: 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
   }
 }
 

@@ -20,6 +20,9 @@ export function getApp(id: string): AppEntry | undefined {
 export type {
   AppEntry,
   AppFeature,
+  AppGuide,
+  AppGuidePath,
+  AppGuideStep,
   AppLink,
   AppIconSource,
   AppCategory,
