@@ -14,29 +14,33 @@ export const gamenight: AppEntry = {
   id: "gamenight",
   name: "GameNight",
   category: "game",
-  tagline: "All your games, in one place.",
+  tagline: "Score keeper, party games & more — your all-in-one game night companion.",
   icon,
   screenshots: [shot1, shot2, shot3, shot4, shot5, shot6, shot7, shot8],
-  play: "", // TODO: real Play Store URL once published (shows "Coming soon" until set)
+  play: "https://play.google.com/store/apps/details?id=com.skymanlabs.gamenight",
   appStore: "", // TODO: real App Store URL once published (shows "Coming soon" until set)
   description:
-    "GameNight is a local-first companion for board-game nights. It's a searchable home for game-agnostic Tools and self-contained Games — everything runs on-device, no account required.",
+    "GameNight is the all-in-one companion for board games, card games, and party nights. Keep score, roll dice, flip a coin, run timers, spin a wheel, call Tambola, and split into fair teams — then jump straight into built-in party games like Truth or Dare, Would You Rather, Imposter, and Werewolf. No account, no sign-up, completely free, and works fully offline.",
   features: [
     {
-      title: "Tools for any game",
-      detail: "Score keeper, dice, timers, team generator, and more.",
+      title: "One app, every tool",
+      detail:
+        "Score keeper, dice, coin flip, timers, spin wheel, team generator, and a full Tambola caller.",
     },
     {
-      title: "Games built in",
-      detail: "Werewolf, Imposter, Party Prompts, and a growing set.",
+      title: "Party games built in",
+      detail:
+        "Truth or Dare, Would You Rather, Imposter, and Werewolf — no setup, just play.",
     },
     {
       title: "Pin & launch in a tap",
-      detail: "Keep your favourites one tap away.",
+      detail:
+        "Keep favourite tools and games one tap away, and let Surprise Me pick what's next.",
     },
     {
-      title: "No account, fully offline",
-      detail: "Everything runs on-device — no sign-up, ever.",
+      title: "Free, offline, no account",
+      detail:
+        "Everything runs on-device — no sign-up, no ads during play, works without internet.",
     },
   ],
   privacy: {

@@ -1,9 +1,10 @@
 import type { AppEntry } from "./types";
 import { strive } from "./strive";
 import { gamenight } from "./gamenight";
+import { fullhouse } from "./fullhouse";
 
 /** The apps shown on the front page, in display order. */
-export const apps: AppEntry[] = [strive, gamenight];
+export const apps: AppEntry[] = [strive, gamenight, fullhouse];
 
 /** Home-page groups, in display order. Empty groups are hidden by the page. */
 export const APP_GROUPS = [
@@ -19,6 +20,9 @@ export function getApp(id: string): AppEntry | undefined {
 export type {
   AppEntry,
   AppFeature,
+  AppGuide,
+  AppGuidePath,
+  AppGuideStep,
   AppLink,
   AppIconSource,
   AppCategory,

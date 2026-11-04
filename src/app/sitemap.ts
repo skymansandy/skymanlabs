@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     ...apps.flatMap((app) => [
       `/${app.id}`,
+      ...(app.guide ? [`/${app.id}/howtoplay`] : []),
       ...(app.privacy ? [`/${app.id}/privacy`] : []),
     ]),
   ];

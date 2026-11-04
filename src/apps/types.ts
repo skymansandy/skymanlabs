@@ -11,6 +11,33 @@ export interface AppFeature {
   detail?: string;
 }
 
+/** One numbered step within a how-to-play path. */
+export interface AppGuideStep {
+  /** In-app screen / area this step happens on, shown as a small label. */
+  screen?: string;
+  title: string;
+  detail: string;
+}
+
+/** A distinct way to use the app (e.g. "Host as the caller"). */
+export interface AppGuidePath {
+  title: string;
+  /** Short label for the tab control. Falls back to `title`. */
+  tab?: string;
+  intro?: string;
+  steps: AppGuideStep[];
+}
+
+/** "How to play" guide content for an app's /howtoplay page. */
+export interface AppGuide {
+  /** Framing paragraph shown at the top of the guide. */
+  intro: string;
+  /** The main flows through the app, in display order. */
+  paths: AppGuidePath[];
+  /** Optional closing tips (settings, languages, resume, etc.). */
+  tips?: { title: string; detail: string }[];
+}
+
 export interface AppLink {
   label: string;
   href: string;
@@ -53,6 +80,8 @@ export interface AppEntry {
   description?: string;
   /** Highlighted features for the detail page. */
   features?: AppFeature[];
+  /** "How to play" guide content. Rendered on a dedicated /howtoplay page. */
+  guide?: AppGuide;
   /** Extra custom links for the detail-page nav rail (beyond the standard ones). */
   links?: AppLink[];
   /** Privacy-policy content. Required for published apps. */
