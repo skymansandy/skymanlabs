@@ -33,7 +33,20 @@ export default async function PrivacyPage({
 }) {
   const app = getApp((await params).app);
   if (!app?.privacy) notFound();
-  const { effectiveDate, posture, permissions, thirdParties } = app.privacy;
+  const {
+    effectiveDate,
+    posture,
+    permissions,
+    thirdParties,
+    collected,
+    onDevice,
+    optOut,
+    retention,
+    children,
+  } = app.privacy;
+  // Apps that collect anything get an itemised policy; the rest keep the
+  // collect-nothing wording.
+  const collects = Boolean(collected?.length);
 
   return (
     <main className="legal">
@@ -48,11 +61,25 @@ export default async function PrivacyPage({
       <p>{posture}</p>
 
       <h2>Information we collect</h2>
-      <p>
-        We do not collect, store, or transmit any personal information.
-        Everything you create in {app.name} stays on your device.
-      </p>
-      {thirdParties && thirdParties.length > 0 ? (
+      {collects ? (
+        <>
+          {onDevice ? <p>{onDevice}</p> : null}
+          <p>Here is what {app.name} does send, and why:</p>
+          <ul>
+            {collected!.map((item) => (
+              <li key={item.category}>
+                <strong>{item.category}</strong> — {item.detail}
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p>
+          We do not collect, store, or transmit any personal information.
+          Everything you create in {app.name} stays on your device.
+        </p>
+      )}
+      {collects ? null : thirdParties && thirdParties.length > 0 ? (
         <p>
           {app.name} uses the following third-party services, which may process
           limited data as described in their own policies:{" "}
@@ -79,28 +106,66 @@ export default async function PrivacyPage({
         </>
       ) : null}
 
-      <h2>How your information is used</h2>
-      <p>
-        Because {app.name} keeps everything on your device, your information is
-        used solely to provide the app&apos;s features locally. It never leaves
-        your device through {app.name}.
-      </p>
+      {collects ? (
+        <>
+          <h2>Who processes it</h2>
+          <p>
+            We use a small number of service providers to run {app.name}. They
+            process data on our behalf, under their own privacy policies:
+          </p>
+          <ul>
+            {(thirdParties ?? []).map((party) => (
+              <li key={party}>{party}</li>
+            ))}
+          </ul>
 
-      <h2>Data sharing and selling</h2>
-      <p>
-        We do not share, sell, or rent your data, because we never collect it.
-      </p>
+          <h2>Data sharing and selling</h2>
+          <p>
+            We don&apos;t sell your data, and we don&apos;t use it to track you
+            across other apps and websites.
+          </p>
 
-      <h2>Data retention and deletion</h2>
-      <p>
-        Any data {app.name} stores lives on your device. Uninstalling the app
-        removes it. There is nothing stored on our servers to delete.
-      </p>
+          {optOut ? (
+            <>
+              <h2>Your choices</h2>
+              <p>{optOut}</p>
+            </>
+          ) : null}
+
+          <h2>Data retention and deletion</h2>
+          <p>{retention}</p>
+          <p>
+            Everything stored on your device is removed when you uninstall{" "}
+            {app.name} or clear its data.
+          </p>
+        </>
+      ) : (
+        <>
+          <h2>How your information is used</h2>
+          <p>
+            Because {app.name}{" "}keeps everything on your device, your information
+            is used solely to provide the app&apos;s features locally. It never
+            leaves your device through {app.name}.
+          </p>
+
+          <h2>Data sharing and selling</h2>
+          <p>
+            We do not share, sell, or rent your data, because we never collect
+            it.
+          </p>
+
+          <h2>Data retention and deletion</h2>
+          <p>
+            Any data {app.name} stores lives on your device. Uninstalling the app
+            removes it. There is nothing stored on our servers to delete.
+          </p>
+        </>
+      )}
 
       <h2>Children&apos;s privacy</h2>
       <p>
-        {app.name} is not directed at children under 13 and does not knowingly
-        collect personal information from anyone.
+        {children ??
+          `${app.name} is not directed at children under 13 and does not knowingly collect personal information from anyone.`}
       </p>
 
       <h2>Changes to this policy</h2>

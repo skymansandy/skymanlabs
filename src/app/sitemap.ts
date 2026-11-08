@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { apps } from "@/apps";
+import { appSubPages, apps } from "@/apps";
 import { SITE } from "@/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -7,8 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     ...apps.flatMap((app) => [
       `/${app.id}`,
-      ...(app.guide ? [`/${app.id}/howtoplay`] : []),
-      ...(app.privacy ? [`/${app.id}/privacy`] : []),
+      ...appSubPages(app).map((page) => page.href),
     ]),
   ];
 

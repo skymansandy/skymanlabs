@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { apps, getApp, type AppLink } from "@/apps";
+import { appSubPages, apps, getApp, type AppLink } from "@/apps";
 import { SITE } from "@/site";
 import { AppIcon } from "@/components/AppIcon";
 import { StoreBadge } from "@/components/StoreBadge";
 import { Carousel } from "@/components/Carousel";
+import { HashRedirect } from "@/components/HashRedirect";
 
 type Params = { app: string };
 
@@ -48,16 +49,23 @@ export default async function AppPage({
     app.features?.length ? { id: "features", label: "Features" } : null,
   ].filter((s): s is { id: string; label: string } => s !== null);
 
+  const subPages = appSubPages(app);
+
   // Standard nav links every app gets, plus any custom ones from its module.
   const navLinks: AppLink[] = [
-    ...(app.guide ? [{ label: "How to play", href: `/${app.id}/howtoplay` }] : []),
-    ...(app.privacy ? [{ label: "Privacy Policy", href: `/${app.id}/privacy` }] : []),
+    ...subPages.map(({ label, href }) => ({ label, href })),
     { label: "Contact", href: `mailto:${SITE.email}`, external: true },
     ...(app.links ?? []),
   ];
 
+  // Hash links for content on its own page (e.g. `#howtoplay`) redirect there.
+  const hashRoutes: Record<string, string> = Object.fromEntries(
+    subPages.map(({ slug, href }) => [slug, href]),
+  );
+
   return (
     <div className="detail">
+      <HashRedirect routes={hashRoutes} />
       <aside className="rail">
         <Link href="/" className="rail-home">
           ← skymanlabs
