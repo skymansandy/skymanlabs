@@ -1,5 +1,6 @@
 import type { AppEntry } from "../types";
 import icon from "./icon.png";
+import featureGraphic from "./feature-graphic.jpg";
 import shot1 from "./screenshots/shot-1.webp";
 import shot2 from "./screenshots/shot-2.webp";
 import shot3 from "./screenshots/shot-3.webp";
@@ -17,6 +18,7 @@ export const encore: AppEntry = {
   tagline: "Lift. Log. Beat last time.",
   icon,
   screenshots: [shot1, shot2, shot3, shot4, shot5, shot6, shot7, shot8],
+  featureGraphic,
   // UTM'd so installs from the site show up as their own channel in PostHog.
   play: "https://play.google.com/store/apps/details?id=com.skymanlabs.encore&referrer=utm_source%3Dskymanlabs%26utm_medium%3Dwebsite%26utm_campaign%3Dproduct_page",
   appStore: "", // TODO: real App Store URL once published (shows "Coming soon" until set)

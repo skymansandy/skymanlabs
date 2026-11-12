@@ -22,15 +22,24 @@ export async function generateMetadata({
   const app = getApp((await params).app);
   if (!app) return {};
   const path = `/${app.id}`;
+  const title = `${app.name} — ${SITE.name}`;
+  const description = app.tagline ?? app.description;
+  const images = app.featureGraphic
+    ? [
+        {
+          url: app.featureGraphic.src,
+          width: app.featureGraphic.width,
+          height: app.featureGraphic.height,
+          alt: app.name,
+        },
+      ]
+    : undefined;
   return {
     title: app.name,
-    description: app.tagline ?? app.description,
+    description,
     alternates: { canonical: path },
-    openGraph: {
-      title: `${app.name} — ${SITE.name}`,
-      description: app.tagline ?? app.description,
-      url: path,
-    },
+    openGraph: { title, description, url: path, images },
+    twitter: { card: "summary_large_image", title, description, images },
   };
 }
 

@@ -112,6 +112,8 @@ export interface AppEntry {
   icon: AppIconSource;
   /** Screenshots shown in the detail-page carousel. Co-located in the app module. */
   screenshots?: StaticImageData[];
+  /** Store feature graphic (1024×500). Used as the page's link-preview image. */
+  featureGraphic?: StaticImageData;
   /** Google Play listing URL. Empty until published. */
   play?: string;
   /** Apple App Store listing URL. Empty until published. */
