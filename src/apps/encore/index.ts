@@ -10,7 +10,7 @@ import shot6 from "./screenshots/shot-6.webp";
 import shot7 from "./screenshots/shot-7.webp";
 import shot8 from "./screenshots/shot-8.webp";
 
-// bundle id: com.skymanlabs.encore
+// bundle id: com.skymanlabs.encore, App Store id: 6834281398
 export const encore: AppEntry = {
   id: "encore",
   name: "Encore",
@@ -21,7 +21,8 @@ export const encore: AppEntry = {
   featureGraphic,
   // UTM'd so installs from the site show up as their own channel in PostHog.
   play: "https://play.google.com/store/apps/details?id=com.skymanlabs.encore&referrer=utm_source%3Dskymanlabs%26utm_medium%3Dwebsite%26utm_campaign%3Dproduct_page",
-  appStore: "", // TODO: real App Store URL once published (shows "Coming soon" until set)
+  // No country segment, so Apple sends each visitor to their own storefront.
+  appStore: "https://apps.apple.com/app/id6834281398",
   description:
     "Encore is a workout log built around one question: did you beat last time? Every set is pre-filled from your last session, so logging is a swipe. When you finish an exercise, Encore tells you whether you went up, held steady or had a lighter day. There's no account to create, and your workouts stay on your phone.",
   features: [
@@ -184,7 +185,7 @@ export const encore: AppEntry = {
         {
           question: "Is there an iPhone version?",
           answer:
-            "Not yet. Encore is on Android first, and the iPhone version is in the works.",
+            "Yes. Encore is on the App Store for iPhone and on Google Play for Android.",
         },
       ],
     },
